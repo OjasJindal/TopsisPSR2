@@ -1,160 +1,176 @@
-# TOPSIS Analysis for Text Classification Models
+# TOPSIS Analysis for Text Generation Models
 
-##  Overview
+## Overview
 
-This project implements **TOPSIS (Technique for Order of Preference by Similarity to Ideal Solution)** to evaluate and rank popular pre-trained models for text classification tasks. TOPSIS is a multi-criteria decision analysis method that helps identify the best alternative among a set of options.
+This project applies **TOPSIS (Technique for Order of Preference by Similarity to Ideal Solution)** to evaluate and rank modern **text generation models** based on both generation quality and deployment efficiency.
 
-##  Objective
+Unlike traditional evaluations focused only on quality, this analysis balances:
 
-Apply TOPSIS methodology to determine the optimal pre-trained model for text classification based on multiple performance criteria.
+- generation performance  
+- response latency  
+- resource efficiency  
 
-##  Models Evaluated
+making it suitable for **real-time AI systems and production deployment**.
 
-The following state-of-the-art pre-trained models were evaluated:
+---
 
-1. **BERT-base** (bert-base-uncased)
-2. **RoBERTa-base** (roberta-base)
-3. **DistilBERT** (distilbert-base-uncased)
-4. **ALBERT-base** (albert-base-v2)
-5. **XLNet-base** (xlnet-base-cased)
-6. **DeBERTa-base** (deberta-base)
+## Objective
 
-##  Evaluation Criteria
+To identify the most suitable text generation model for real-world applications by evaluating multiple performance criteria.
 
-Models are evaluated based on five key criteria:
+---
+
+## Models Evaluated
+
+The following widely used generation models were evaluated:
+
+1. GPT-2  
+2. GPT-Neo-1.3B  
+3. T5-base  
+4. BART-large  
+5. LLaMA-2-7B  
+6. Mistral-7B  
+
+---
+
+## Evaluation Criteria
+
+Models were evaluated using both quality and efficiency metrics.
 
 | Criterion | Type | Weight | Description |
-|-----------|------|--------|-------------|
-| **Accuracy (%)** | Benefit ↑ | 30% | Overall classification accuracy on benchmark datasets |
-| **F1-Score (%)** | Benefit ↑ | 30% | Harmonic mean of precision and recall |
-| **Inference Time (ms)** | Cost ↓ | 20% | Average time to process a single input |
-| **Model Size (MB)** | Cost ↓ | 10% | Storage footprint of the model |
-| **Training Data (GB)** | Benefit ↑ | 10% | Size of pre-training corpus |
+|----------|------|--------|-------------|
+| **BLEU Score** | Benefit ↑ | 25% | Measures fluency & n-gram similarity |
+| **ROUGE-L** | Benefit ↑ | 20% | Measures content relevance |
+| **BERTScore** | Benefit ↑ | 20% | Captures semantic coherence |
+| **Latency (ms)** | Cost ↓ | 15% | Response speed |
+| **VRAM Usage (GB)** | Cost ↓ | 10% | GPU memory required |
+| **Model Size (MB)** | Cost ↓ | 10% | Storage footprint |
 
-> [!NOTE]
-> - **Benefit criteria** (↑): Higher values are better
-> - **Cost criteria** (↓): Lower values are better
+> **Benefit criteria (↑):** higher is better  
+> **Cost criteria (↓):** lower is better  
 
-##  Performance Data
+---
 
-| Model | Accuracy (%) | F1-Score (%) | Inference Time (ms) | Model Size (MB) | Training Data (GB) |
-|-------|--------------|--------------|---------------------|----------------|-------------------|
-| BERT-base | 92.5 | 91.8 | 45.2 | 438 | 16 |
-| RoBERTa-base | 93.2 | 92.5 | 47.8 | 498 | 160 |
-| DistilBERT | 90.8 | 90.1 | 28.5 | 255 | 16 |
-| ALBERT-base | 91.2 | 90.7 | 38.4 | 44 | 16 |
-| XLNet-base | 93.5 | 92.8 | 62.1 | 535 | 126 |
-| DeBERTa-base | 94.1 | 93.6 | 52.3 | 520 | 160 |
+## TOPSIS Results
 
-##  TOPSIS Results
+### Final Ranking
 
-### Final Rankings
+| Rank | Model | TOPSIS Score | Key Insights |
+|------|-------|--------------|-------------|
+| 🥇 1 | **BART-large** | **0.7199** | Best balance of quality & efficiency |
+| 🥈 2 | **T5-base** | 0.6657 | Strong generation quality with good efficiency |
+| 🥉 3 | **GPT-Neo-1.3B** | 0.5805 | Balanced performance |
+| 4 | GPT-2 | 0.4970 | Lightweight and stable baseline |
+| 5 | LLaMA-2-7B | 0.3665 | High resource usage impacts ranking |
+| 6 | Mistral-7B | 0.3073 | Resource-heavy for this setup |
 
-The TOPSIS analysis produced the following rankings:
-
-| Rank | Model | TOPSIS Score | Key Strengths |
-|------|-------|--------------|---------------|
-|  1 | **DeBERTa-base** | 0.7234 | Highest accuracy & F1-score, large training data |
-|  2 | **RoBERTa-base** | 0.6891 | Excellent performance, extensive pre-training |
-|  3 | **XLNet-base** | 0.5842 | Strong accuracy, good training data |
-| 4 | **BERT-base** | 0.4756 | Balanced performance across metrics |
-| 5 | **DistilBERT** | 0.4523 | Fastest inference, smallest size |
-| 6 | **ALBERT-base** | 0.2987 | Extremely compact model |
-
-### Visualization: TOPSIS Scores
-
-[TOPSIS Score Comparison](results/topsis_scores.png)
+---
 
 ### Visualization: Final Ranking
 
-[Final Ranking](results/final_ranking.png)
+![Final Ranking](results/final_ranking_generation.png)
 
-##  TOPSIS Methodology
+---
 
-The TOPSIS algorithm follows these steps:
+## Interpretation of Results
 
-1. **Normalize the decision matrix**: Convert all criteria to a comparable scale
-2. **Calculate weighted normalized matrix**: Apply criterion weights
-3. **Identify ideal solutions**:
-   - **Ideal Best (A+)**: Best value for each criterion
-   - **Ideal Worst (A-)**: Worst value for each criterion
-4. **Calculate separation measures**:
-   - Distance from ideal best (S+)
-   - Distance from ideal worst (S-)
-5. **Calculate TOPSIS score**: `Score = S- / (S+ + S-)`
-6. **Rank alternatives**: Higher score = better alternative
+### 🥇 Why BART-large Ranked First
+- Highest combined generation quality
+- Strong semantic coherence
+- Balanced latency and resource usage
 
-### Normalized Decision Matrix
+### 🥈 Why T5-base Performed Strongly
+- Excellent text coherence & summarization ability
+- Efficient compared to larger models
 
-![Heatmap of Normalized Matrix](results/heatmap_normalized.png)
+### ⚖️ Mid-Tier Models
+- GPT-Neo provides balance
+- GPT-2 remains a reliable lightweight baseline
 
-##  Additional Visualizations
+### 📉 Why Larger Models Ranked Lower
+LLaMA-2 and Mistral require significantly more compute resources, reducing suitability for latency-sensitive deployment.
 
-### Criteria Comparison
+---
 
-![Criteria Comparison](results/criteria_comparison.png)
+## Recommendation
 
-### Radar Chart - Model Strengths
+## ✅ Recommended Model: **BART-large**
 
-![Radar Chart](results/radar_chart.png)
+Best suited for:
 
-### Performance Overview
+- conversational AI  
+- content generation  
+- summarization systems  
+- real-time AI applications  
 
-![Performance Overview](results/performance_overview.png)
+Provides the best balance of quality and efficiency.
 
-##  Recommendation
+### Alternative Recommendations
 
-> [!IMPORTANT]
-> **Recommended Model: DeBERTa-base**
-> 
-> Based on the TOPSIS analysis, **DeBERTa-base** achieves the highest score (0.7234) and is recommended for text classification tasks where:
-> - **Accuracy is paramount**: Highest accuracy (94.1%) and F1-score (93.6%)
-> - **Training data quality matters**: Trained on 160GB of diverse data
-> - **Computational resources are available**: Moderate inference time and model size
->
-> **Alternative Recommendations:**
-> - **For balanced performance**: RoBERTa-base (Rank #2)
-> - **For speed-critical applications**: DistilBERT (fastest inference at 28.5ms)
-> - **For resource-constrained environments**: ALBERT-base (smallest at 44MB)
+✔ **T5-base** → best efficiency + quality trade-off  
+✔ **GPT-Neo** → balanced performance  
+✔ **GPT-2** → resource-constrained environments  
 
-##  Usage
+---
 
-### Installation
+## TOPSIS Methodology
+
+TOPSIS ranks alternatives based on distance from:
+
+- **Ideal Best (A⁺)** → optimal values  
+- **Ideal Worst (A⁻)** → least desirable values  
+
+### Steps:
+
+1. Normalize decision matrix  
+2. Apply weights  
+3. Identify ideal best & worst  
+4. Compute distances (S⁺ and S⁻)  
+5. Calculate TOPSIS score  
+6. Rank alternatives  
+
+**Score formula:**
+
+Score = S⁻ / (S⁺ + S⁻)
+
+Higher score indicates better overall performance.
+
+---
+
+## Usage
+
+### Run Analysis
 
 ```bash
-pip install -r requirements.txt
+python text_generation_topsis.py
 ```
-
-### Run TOPSIS Analysis
-
-```bash
-python text_classification_topsis.py
-```
-
-This will:
-- Calculate TOPSIS scores for all models
-- Display detailed results in the terminal
-- Export results to CSV files in the `results/` directory
 
 ### Generate Visualizations
 
 ```bash
-python visualizations.py
+python visualizations_generation.py
 ```
 
-This will create comprehensive visualizations in the `results/` directory.
+Outputs are saved in:
 
-##  References
+```
+/results
+```
 
-- **TOPSIS Method**: Hwang, C.L.; Yoon, K. (1981). "Multiple Attribute Decision Making: Methods and Applications"
-- **BERT**: Devlin et al. (2019) - [arXiv:1810.04805](https://arxiv.org/abs/1810.04805)
-- **RoBERTa**: Liu et al. (2019) - [arXiv:1907.11692](https://arxiv.org/abs/1907.11692)
-- **DistilBERT**: Sanh et al. (2019) - [arXiv:1910.01108](https://arxiv.org/abs/1910.01108)
-- **ALBERT**: Lan et al. (2019) - [arXiv:1909.11942](https://arxiv.org/abs/1909.11942)
-- **XLNet**: Yang et al. (2019) - [arXiv:1906.08237](https://arxiv.org/abs/1906.08237)
-- **DeBERTa**: He et al. (2020) - [arXiv:2006.03654](https://arxiv.org/abs/2006.03654)
+---
 
-##  Author
+## Applications
 
-ojasjindal47
+This evaluation framework is useful for:
 
+- conversational AI systems  
+- live commerce assistants  
+- content generation platforms  
+- chatbot deployment decisions  
+- AI model benchmarking  
+
+---
+
+## Author
+
+**Ojas Jindal**
